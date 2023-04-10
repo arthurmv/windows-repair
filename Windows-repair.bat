@@ -37,18 +37,22 @@ CLS
 ECHO.
 ECHO  Select an option please
 ECHO.
-ECHO  -------------------
-ECHO  ^| [1] SFC SCAN    ^|
-ECHO  ^| [2] DISM SCAN   ^|
-ECHO  ^| [3] DISM REPAIR ^|
-ECHO  ^| [4] EXIT        ^|
-ECHO  -------------------
+ECHO  ---------------------
+ECHO  ^| [1] CHECK HDD/SSD ^|
+ECHO  ^| [2] CHECK RAM     ^|
+ECHO  ^| [3] SFC SCAN      ^|
+ECHO  ^| [4] DISM SCAN     ^|
+ECHO  ^| [5] DISM REPAIR   ^|
+ECHO  ^| [6] EXIT          ^|
+ECHO  ---------------------
 ECHO.
 SET /P Q= #   
-IF /I "%Q%" EQU "1" GOTO SFC
-IF /I "%Q%" EQU "2" GOTO DISM-SCAN
-IF /I "%Q%" EQU "3" GOTO DISM-REPAIR
-IF /I "%Q%" EQU "4" EXIT
+IF /I "%Q%" EQU "1" GOTO HDD
+IF /I "%Q%" EQU "2" GOTO RAM
+IF /I "%Q%" EQU "3" GOTO SFC
+IF /I "%Q%" EQU "4" GOTO DISM-SCAN
+IF /I "%Q%" EQU "5" GOTO DISM-REPAIR
+IF /I "%Q%" EQU "6" EXIT
 CLS
 ECHO.
 ECHO ------------------------------
@@ -57,6 +61,32 @@ ECHO ------------------------------
 ECHO.
 PAUSE
 GOTO MENU
+:HDD
+CLS
+CHKDSK /f /r
+:HDD-Q
+CLS
+ECHO.
+ECHO   **********************************************************************
+ECHO   *** Restart your computer in order to perform a disk check/repair. ***
+ECHO   **********************************************************************
+ECHO.
+ECHO.
+ECHO.
+ECHO Restart now? (y/n)
+SET /P R=
+IF "%R%"=="" SHUTDOWN /r /t 00
+IF /I "%R%" EQU "y" SHUTDOWN /r /t 00
+IF /I "%R%" EQU "n" EXIT
+ECHO.
+ECHO Choose (Y)es or (N)o
+ECHO.
+PAUSE
+GOTO HDD-Q
+:RAM
+CLS
+START "" MDSCHED
+EXIT
 :SFC
 CLS
 sfc /scannow
