@@ -36,21 +36,23 @@ ECHO  Select an option please
 ECHO.
 ECHO  ----------------------
 ECHO  ^| [1] WINDOWS REPAIR ^|
-ECHO  ^| [2] CHECK HDD/SSD  ^|
-ECHO  ^| [3] CHECK RAM      ^|
-ECHO  ^| [4] EXIT           ^|
+ECHO  ^| [2] CLEAN TEMP DIR ^|
+ECHO  ^| [3] CHECK HDD/SSD  ^|
+ECHO  ^| [4] CHECK RAM      ^|
+ECHO  ^| [5] EXIT           ^|
 ECHO  ----------------------
 ECHO.
 SET /P Q= #   
 IF "%Q%"=="" GOTO WIN
 IF /I "%Q%" EQU "1" GOTO WIN
-IF /I "%Q%" EQU "2" GOTO HDD
-IF /I "%Q%" EQU "3" GOTO RAM
-IF /I "%Q%" EQU "4" EXIT
+IF /I "%Q%" EQU "2" GOTO TEMP
+IF /I "%Q%" EQU "3" GOTO HDD
+IF /I "%Q%" EQU "4" GOTO RAM
+IF /I "%Q%" EQU "5" EXIT
 CLS
 ECHO.
 ECHO ------------------------------
-ECHO ^| Enter a number from 1 to 4 ^|
+ECHO ^| Enter a number from 1 to 5 ^|
 ECHO ------------------------------
 ECHO.
 PAUSE
@@ -78,6 +80,20 @@ ECHO   *** Repair has been completed^^! ***
 ECHO   **********************************
 ECHO.
 ECHO   Please check logs or anything you need before press any key.
+ECHO.
+ECHO.
+ECHO.
+PAUSE
+GOTO MENU
+:TEMP
+CD /D %temp%
+FOR /d %%D in (*) do RD /s /q "%%D"
+DEL /f /q *
+CLS
+ECHO.
+ECHO   *****************************************************
+ECHO   *** Temporary folder has been cleaned succefully^^! ***
+ECHO   *****************************************************
 ECHO.
 ECHO.
 ECHO.
