@@ -29,35 +29,57 @@ setlocal & pushd .
 cd /d %~dp0
 if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
-::::::::::::::::::::::::::::
-::START
-::::::::::::::::::::::::::::
 :MENU
 CLS
 ECHO.
 ECHO  Select an option please
 ECHO.
-ECHO  ---------------------
-ECHO  ^| [1] CHECK HDD/SSD ^|
-ECHO  ^| [2] CHECK RAM     ^|
-ECHO  ^| [3] SFC SCAN      ^|
-ECHO  ^| [4] DISM SCAN     ^|
-ECHO  ^| [5] DISM REPAIR   ^|
-ECHO  ^| [6] EXIT          ^|
-ECHO  ---------------------
+ECHO  ----------------------
+ECHO  ^| [1] WINDOWS REPAIR ^|
+ECHO  ^| [2] CHECK HDD/SSD  ^|
+ECHO  ^| [3] CHECK RAM      ^|
+ECHO  ^| [4] EXIT           ^|
+ECHO  ----------------------
 ECHO.
 SET /P Q= #   
-IF /I "%Q%" EQU "1" GOTO HDD
-IF /I "%Q%" EQU "2" GOTO RAM
-IF /I "%Q%" EQU "3" GOTO SFC
-IF /I "%Q%" EQU "4" GOTO DISM-SCAN
-IF /I "%Q%" EQU "5" GOTO DISM-REPAIR
-IF /I "%Q%" EQU "6" EXIT
+IF "%Q%"=="" GOTO WIN
+IF /I "%Q%" EQU "1" GOTO WIN
+IF /I "%Q%" EQU "2" GOTO HDD
+IF /I "%Q%" EQU "3" GOTO RAM
+IF /I "%Q%" EQU "4" EXIT
 CLS
 ECHO.
 ECHO ------------------------------
 ECHO ^| Enter a number from 1 to 4 ^|
 ECHO ------------------------------
+ECHO.
+PAUSE
+GOTO MENU
+:WIN
+CLS
+ECHO.
+ECHO   *****************************************************
+ECHO   *** It requieres internet connection in order to  ***
+ECHO   *** match and repair any corrupted system file.   ***
+ECHO   *****************************************************
+ECHO.
+ECHO.
+ECHO.
+DISM /Online /Cleanup-Image /CheckHealth
+ECHO.
+DISM /Online /Cleanup-Image /ScanHealth
+ECHO.
+DISM /Online /Cleanup-Image /RestoreHealth
+ECHO.
+SFC /scannow
+ECHO.
+ECHO   **********************************
+ECHO   *** Repair has been completed^^! ***
+ECHO   **********************************
+ECHO.
+ECHO   Please check logs or anything you need before press any key.
+ECHO.
+ECHO.
 ECHO.
 PAUSE
 GOTO MENU
@@ -87,19 +109,3 @@ GOTO HDD-Q
 CLS
 START "" MDSCHED
 EXIT
-:SFC
-CLS
-sfc /scannow
-PAUSE
-GOTO MENU
-:DISM-SCAN
-CLS
-DISM /Online /Cleanup-Image /CheckHealth
-DISM /Online /Cleanup-Image /ScanHealth
-PAUSE
-GOTO MENU
-:DISM-REPAIR
-CLS
-DISM /Online /Cleanup-Image /RestoreHealth
-PAUSE
-GOTO MENU
