@@ -43,7 +43,7 @@ ECHO  ^| [5] EXIT           ^|
 ECHO  ----------------------
 ECHO.
 SET /P Q= #   
-IF "%Q%"=="" GOTO WIN
+IF "%Q%"=="" GOTO EXIT
 IF /I "%Q%" EQU "1" GOTO WIN
 IF /I "%Q%" EQU "2" GOTO TEMP
 IF /I "%Q%" EQU "3" GOTO HDD
