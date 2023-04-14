@@ -30,6 +30,7 @@ cd /d %~dp0
 if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
 :MENU
+SET Q=
 CLS
 ECHO.
 ECHO  Select an option please
