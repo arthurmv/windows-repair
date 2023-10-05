@@ -68,10 +68,6 @@ ECHO   *****************************************************
 ECHO.
 ECHO.
 ECHO.
-DISM /Online /Cleanup-Image /CheckHealth
-ECHO.
-DISM /Online /Cleanup-Image /ScanHealth
-ECHO.
 DISM /Online /Cleanup-Image /RestoreHealth
 ECHO.
 SFC /scannow
